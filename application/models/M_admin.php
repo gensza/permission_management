@@ -5,10 +5,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class M_admin extends CI_Model
 {
 
-      var $table = 'produk'; //nama tabel dari database
-      var $column_order = array(null, 'kode_barang', 'nama_barang', 'kode_ukuran', 'kode_warna', 'harga', 'harga_dasar'); //field yang ada di table user
-      var $column_search = array('kode_barang', 'nama_barang', 'kode_ukuran', 'kode_warna', 'harga', 'harga_dasar'); //field yang diizin untuk pencarian 
-      var $order = array('id_produk' => 'desc'); // default order 
+      var $table = 'users'; //nama tabel dari database
+      var $column_order = array(null, 'nama', 'username', 'id_module_role'); //field yang ada di table user
+      var $column_search = array('nama', 'username', 'id_module_role'); //field yang diizin untuk pencarian 
+      var $order = array('id' => 'desc'); // default order 
 
       public function __construct()
       {
@@ -21,10 +21,6 @@ class M_admin extends CI_Model
 
 
             $this->db->from($this->table);
-            // $this->db->where('user', $role_user);
-            // $this->db->select('id', 'tglpo', 'noreftxt', 'nopotxt', 'nama_supply', 'lokasi_beli');
-            // $this->db->from('po');
-            // $this->db->order_by('id', 'desc');
 
             $i = 0;
 
@@ -77,20 +73,31 @@ class M_admin extends CI_Model
             return $this->db->count_all_results();
       }
 
-      public function save_dataproduk($data_save)
+      // public function update_dataproduk($data_update)
+      // {
+      //       $this->db->where('kode_barang', $data_update['kode_barang']);
+      //       return $this->db->update('produk', $data_update);
+      // }
+
+      // new
+      public function del_datausers($id)
       {
-            return $this->db->insert('produk', $data_save);
+            $this->db->delete('users', array('id' => $id));
       }
 
-      public function update_dataproduk($data_update)
+      function get_module_permission()
       {
-            $this->db->where('kode_barang', $data_update['kode_barang']);
-            return $this->db->update('produk', $data_update);
+            return $this->db->query("SELECT * FROM module_permission")->result_array();
       }
 
-      public function del_dataproduk($id_produk)
+      function get_module()
       {
-            $this->db->delete('produk', array('id_produk' => $id_produk));
+            return $this->db->query("SELECT * FROM module")->result_array();
+      }
+
+      function get_module_role()
+      {
+            return $this->db->query("SELECT * FROM module_role")->result_array();
       }
 }
 
