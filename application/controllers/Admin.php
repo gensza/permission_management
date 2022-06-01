@@ -131,6 +131,17 @@ class Admin extends CI_Controller
 		echo json_encode($result);
 	}
 
+	public function simpan_newModulePermission()
+	{
+		$data = [
+			'id_module_role' => $this->input->post('module_role'),
+			'id_module' => $this->input->post('module')
+		];
+		$result = $this->db->insert('module_permission', $data);
+
+		echo json_encode($result);
+	}
+
 	// public function update_dataproduk()
 	// {
 	// 	$data_save['kode_barang'] = $this->input->post('kode_barang');
@@ -200,5 +211,12 @@ class Admin extends CI_Controller
 		);
 		//output dalam format JSON
 		echo json_encode($output);
+	}
+
+	public function AboutUs()
+	{
+		$this->load->view('header', $this->menus());
+		$this->load->view('content/about_us');
+		$this->load->view('footer');
 	}
 }

@@ -98,6 +98,33 @@
     </div>
 </div>
 
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="scrollableModalTitle" aria-hidden="true" id="modal_newModulePermission">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="text-center modal-header">
+                <h1 class="h4 text-gray-900">Create Module Permission!</h1>
+            </div>
+            <div class="modal-body mt-0">
+                <div class="form-group mb-2">
+                    <select name="module_role" id="module_role" class="form-control" required>
+                        <option value="" selected disabled>- Select module Role - </option>
+                        <?php foreach ($get_module_role as $p) : ?>
+                            <option value="<?= $p['id'] ?>"><?= $p['nama'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group mb-2">
+                    <input type="hidden" class="form-control form-control-user" id="module" name="module" placeholder="module">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-sm btn-success" data-dismiss="modal" onclick="simpan_newModulePermission()">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     var table;
     $(document).ready(function() {
@@ -205,6 +232,7 @@
     $(document).on('click', '#detail_module', function() {
 
         var id = $(this).data('id');
+        $('#module').val(id);
         $("#modal_detailModule").modal('show');
 
         $('#table_detail_module').DataTable().destroy();
@@ -232,4 +260,38 @@
         });
 
     });
+
+    function new_module_permission() {
+        $("#modal_newModulePermission").modal('show');
+    }
+
+    function simpan_newModulePermission() {
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url('Admin/simpan_newModulePermission') ?>",
+            dataType: "JSON",
+
+            beforeSend: function() {},
+
+            data: {
+                module_role: $('#module_role').val(),
+                module: $('#module').val()
+            },
+
+            success: function(data) {
+                console.log(data);
+                alert('Data Berhasil Disimpan');
+                $("#modal_newModulePermission").modal('hide');
+
+                var rel = setInterval(function() {
+                    $('#table_detail_module').DataTable().ajax.reload();
+                    clearInterval(rel);
+                }, 100);
+
+            },
+            error: function(response) {
+                alert('ERROR! ' + response.responseText);
+            }
+        });
+    }
 </script>

@@ -55,7 +55,7 @@ class Auth extends CI_Controller
                     ];
                     $this->session->set_userdata($data);
                     if ($user['id_module_role'] == 4) { // jika dia guest
-                        redirect('Admin/guest');
+                        redirect('Admin/AboutUs');
                     } else {
                         redirect('Admin');
                     }
