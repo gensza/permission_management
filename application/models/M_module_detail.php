@@ -6,9 +6,9 @@ class M_module_detail extends CI_Model
 {
 
     var $table = 'module_permission'; //nama tabel dari database
-    var $column_order = array(null, 'id_module_role', 'id_module'); //field yang ada di table user
-    var $column_search = array('id_module_role', 'id_module'); //field yang diizin untuk pencarian 
-    var $order = array('id' => 'desc'); // default order 
+    // var $column_order = array(null, 'id_module_role', 'id_module'); //field yang ada di table user
+    var $column_search = array('module_role.nama,module_role.id, module.name, module.id, module_permission.id_module_role, module_permission.id_module, module_permission.id as id_permission'); //field yang diizin untuk pencarian 
+    var $order = array('module_permission.id' => 'desc'); // default order 
 
     public function __construct()
     {
@@ -18,8 +18,11 @@ class M_module_detail extends CI_Model
 
     private function _get_datatables_query($id)
     {
-        $this->db->where('id_module', $id);
+        $this->db->select('module_role.nama,module_role.id, module.name, module.id, module_permission.id_module_role, module_permission.id_module, module_permission.id as id_permission');
         $this->db->from($this->table);
+        $this->db->join('module', 'module.id = module_permission.id_module', 'left');
+        $this->db->join('module_role', 'module_role.id = module_permission.id_module_role', 'left');
+        $this->db->where('id_module', $id);
 
         $i = 0;
 

@@ -294,4 +294,35 @@
             }
         });
     }
+
+    $(document).on('click', '#del_module_perm', function() {
+
+        var id = $(this).data('id');
+
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url('Admin/del_module_perm') ?>",
+            dataType: "JSON",
+
+            beforeSend: function() {},
+
+            data: {
+                id: id,
+            },
+
+            success: function(data) {
+                alert('Data Berhasil Dihapus');
+
+                var rel = setInterval(function() {
+                    $('#table_detail_module').DataTable().ajax.reload();
+                    clearInterval(rel);
+                }, 100);
+
+            },
+            error: function(response) {
+                alert('ERROR! ' + response.responseText);
+            }
+        });
+
+    });
 </script>

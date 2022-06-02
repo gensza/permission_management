@@ -184,20 +184,16 @@ class Admin extends CI_Controller
 		foreach ($list as $field) {
 			$no++;
 
-			$aks = '<button class="btn btn-xs btn-warning" id="edit_produk" name="edit_spp"
-			  data-id="' . $field->id . '" 
-			        data-toggle="tooltip" data-placement="top" title="detail" onClick="return false" style="padding-right:8px;">
-			        Edit</button>
-			        <button class="btn btn-danger btn-xs" id="del_module" name="del_module"
-			        data-id="' . $field->id . '"
+			$aks = '<button class="btn btn-danger btn-xs" id="del_module_perm" name="del_module_perm"
+			        data-id="' . $field->id_permission . '"
 			        data-toggle="tooltip" data-placement="top" title="Pilih" style="padding-right:8px;">
 			  hapus
 			        </button>';
 
 			$row = array();
 			$row[] = $no;
-			$row[] = $field->id_module_role;
-			$row[] = $field->id_module;
+			$row[] = $field->nama;
+			$row[] = $field->name;
 			$row[] = $aks;
 
 			$data[] = $row;
@@ -218,5 +214,14 @@ class Admin extends CI_Controller
 		$this->load->view('header', $this->menus());
 		$this->load->view('content/about_us');
 		$this->load->view('footer');
+	}
+
+	public function del_module_perm()
+	{
+		$id = $this->input->post('id');
+
+		$return = $this->M_module->del_module_perm($id);
+
+		echo json_encode($return);
 	}
 }

@@ -77,6 +77,11 @@ class M_module extends CI_Model
     {
         return $this->db->delete('module', array('id' => $id));
     }
+
+    public function del_module_perm($id)
+    {
+        return $this->db->delete('module_permission', array('id' => $id));
+    }
 }
 
 /* End of file M_module.php */
